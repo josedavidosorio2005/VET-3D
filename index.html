@@ -3,11 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VET-3D | Atlas Clinico Canino</title>
-    <meta
-      name="description"
-      content="Atlas interactivo 3D de anatomia canina con informacion clinica por sistemas y regiones."
-    />
+
+    <!-- Primary SEO -->
+    <title>VET-3D | Atlas Clínico Canino Interactivo</title>
+    <meta name="description" content="Atlas interactivo de anatomía canina con imágenes fotorrealistas, 81 estructuras anatómicas, hotspots clínicos y fichas médicas detalladas por sistema." />
+    <meta name="keywords" content="anatomía canina, atlas veterinario, perro anatomía, veterinaria, esqueleto canino, músculos perro, órganos internos perro" />
+    <meta name="author" content="VET-3D" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="VET-3D — Atlas Clínico Canino" />
+    <meta property="og:description" content="Explora la anatomía del perro en detalle: esqueleto, músculos, órganos, sistema nervioso y cardiovascular con información clínica en cada punto." />
+    <meta property="og:image" content="/atlas_skeleton.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="VET-3D — Atlas Clínico Canino" />
+    <meta name="twitter:description" content="Atlas interactivo de anatomía canina fotorrealista con 81 estructuras y fichas clínicas." />
+    <meta name="twitter:image" content="/atlas_skeleton.png" />
+
+    <!-- Favicon (emoji fallback) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐕</text></svg>" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Preload critical atlas images -->
+    <link rel="preload" as="image" href="/atlas_skeleton.png" />
   </head>
   <body>
     <div id="root"></div>

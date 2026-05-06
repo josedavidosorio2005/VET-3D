@@ -1,25 +1,25 @@
 /**
  * VET-3D  –  Anatomy Viewer (2-D Atlas)
  *
- * Each system shows its own full-width photorealistic image.
+ * Each system shows its own full-width photorealistic image from /public/.
  * Hotspot positions are calibrated against the actual atlas images.
  * Tooltips show: name, latin name, location, function, and clinical info.
  */
 
 import React, { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import _ATLAS from 'virtual:atlas-images'
 import { POSITIONS_2D } from '../hotspotPositions'
 
-// Each system → its own atlas image (base64, embedded at build time)
+// Images served from /public/ — works in dev AND production deploy
 const ATLAS = {
-  skeletal:  _ATLAS.skeletal,
-  muscular:  _ATLAS.muscular,
-  cardio:    _ATLAS.cardio,
-  digestive: _ATLAS.organs,
-  nervous:   _ATLAS.shepherd,
-  clinical:  _ATLAS.shepherd,
+  skeletal:  '/atlas_skeleton.png',
+  muscular:  '/atlas_muscles.png',
+  cardio:    '/atlas_cardio.png',
+  digestive: '/atlas_organs.png',
+  nervous:   '/atlas_shepherd.png',
+  clinical:  '/atlas_shepherd.png',
 }
+
 
 // ── Position lookup: calibrated map first, math fallback ─────────────────────
 // Math fallback: dog head LEFT, tail RIGHT (from screenshot analysis)
