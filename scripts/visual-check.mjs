@@ -6,8 +6,9 @@ import { PNG } from 'pngjs'
 const baseUrl = process.env.VISUAL_CHECK_URL || 'http://127.0.0.1:5173'
 const outputDir = 'artifacts'
 const targets = [
-  { name: 'desktop', viewport: { width: 1366, height: 768 }, isMobile: false, minHeight: 420 },
-  { name: 'mobile', viewport: { width: 390, height: 844 }, isMobile: true, minHeight: 360 },
+  { name: 'desktop', viewport: { width: 1440, height: 900 }, isMobile: false, expectsBottomNav: false, minHeight: 560 },
+  { name: 'tablet', viewport: { width: 820, height: 1180 }, isMobile: true, expectsBottomNav: false, minHeight: 560 },
+  { name: 'mobile', viewport: { width: 390, height: 844 }, isMobile: true, expectsBottomNav: true, minHeight: 470 },
 ]
 
 if (!existsSync(outputDir)) {
@@ -61,26 +62,39 @@ for (const target of targets) {
   })
 
   await page.goto(`${baseUrl}?visualCheck=${Date.now()}`, { waitUntil: 'networkidle' })
-  await page.waitForSelector('canvas', { timeout: 15000 })
-  await page.waitForTimeout(1800)
+  await page.waitForSelector('.atlas-image-wrap', { timeout: 15000 })
+  await page.waitForSelector('.atlas-hotspot', { timeout: 15000 })
+  await page.waitForFunction(() => {
+    const image = document.querySelector('.atlas-image')
+    return image && image.complete && image.naturalWidth > 0
+  }, { timeout: 15000 })
+
+  if (target.expectsBottomNav) {
+    await page.locator('.atlas-hotspot').first().click()
+    await page.waitForSelector('.bs-panel .info-card', { timeout: 5000 })
+  }
 
   await page.screenshot({ path: `${outputDir}/vet3d-${target.name}.png`, fullPage: true })
-  const canvasBuffer = await page.locator('canvas').screenshot()
-  await writeFile(`${outputDir}/vet3d-${target.name}-canvas.png`, canvasBuffer)
+  const viewerBuffer = await page.locator('.atlas-image-wrap').screenshot()
+  await writeFile(`${outputDir}/vet3d-${target.name}-viewer.png`, viewerBuffer)
 
-  const domReport = await page.evaluate(() => {
-    const canvas = document.querySelector('canvas')
-    const rect = canvas.getBoundingClientRect()
+  const domReport = await page.evaluate((options) => {
+    const viewer = document.querySelector('.atlas-image-wrap')
+    const rect = viewer.getBoundingClientRect()
+    const root = document.documentElement
+    const mobileNav = document.querySelector('.mobile-nav')
 
     return {
       cssWidth: Math.round(rect.width),
       cssHeight: Math.round(rect.height),
-      hotspotCount: document.querySelectorAll('.hotspot').length,
-      hasInfoCard: Boolean(document.querySelector('.info-card')),
+      hotspotCount: document.querySelectorAll('.atlas-hotspot').length,
+      hasInfoCard: Boolean(document.querySelector(options.expectsBottomNav ? '.bs-panel .info-card' : '.detail-rail .info-card')),
+      hasExpectedBottomNav: options.expectsBottomNav ? getComputedStyle(mobileNav).display !== 'none' : true,
+      horizontalOverflow: root.scrollWidth > root.clientWidth + 2,
     }
-  })
+  }, { isMobile: target.isMobile, expectsBottomNav: target.expectsBottomNav })
 
-  const pixelReport = samplePng(canvasBuffer)
+  const pixelReport = samplePng(viewerBuffer)
   results.push({ target: target.name, browserErrors, domReport, pixelReport, minHeight: target.minHeight })
   await context.close()
 }
@@ -95,6 +109,8 @@ const failed = results.some(
     entry.domReport.cssHeight < entry.minHeight ||
     entry.domReport.hotspotCount < 10 ||
     !entry.domReport.hasInfoCard ||
+    !entry.domReport.hasExpectedBottomNav ||
+    entry.domReport.horizontalOverflow ||
     entry.pixelReport.brightSamples < 8 ||
     entry.pixelReport.uniqueColors < 8,
 )

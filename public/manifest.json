@@ -1,0 +1,18 @@
+{
+  "name": "VET-3D — Atlas Clínico Canino",
+  "short_name": "VET-3D",
+  "description": "Atlas interactivo de anatomía canina con imágenes fotorrealistas, 81 estructuras y fichas clínicas.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#07100f",
+  "background_color": "#07100f",
+  "categories": ["education", "medical"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2307100f'/><text y='68' x='50' text-anchor='middle' font-size='44' font-weight='900' fill='%2343d1a8' font-family='Arial'>V3D</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

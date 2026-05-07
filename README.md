@@ -1,6 +1,13 @@
 # VET-3D Clinical Atlas
 
-Atlas 3D interactivo de anatomia canina con frontend React/Three.js y API REST en Express para fichas clinicas por estructura.
+Atlas interactivo de anatomia canina con frontend React/Vite, visor clinico responsive y API REST en Express para fichas clinicas por estructura.
+
+## Experiencia profesional
+
+- Compatible con escritorio, tablet y celular mediante layouts dedicados.
+- Navegacion tactil, menu lateral movil, ficha clinica en bottom sheet y barra inferior por sistema.
+- Modo patologia, lente Rayos-X, busqueda con sonar visual y respaldo local si la API no esta disponible.
+- Preparado como PWA basica con `manifest.json`, theme color y safe areas moviles.
 
 ## Requisitos
 
@@ -94,7 +101,7 @@ npm run build
 npm audit
 ```
 
-`npm test` valida salud de API, respuesta clinica de `scapula`, 404 y bloqueo CORS. `npm run test:visual:install` instala Chromium para Playwright la primera vez. `npm run test:visual` requiere que el frontend este corriendo y genera capturas en `artifacts/`.
+`npm test` valida salud de API, respuesta clinica de `scapula`, 404 y bloqueo CORS. `npm run test:visual:install` instala Chromium para Playwright la primera vez. `npm run test:visual` requiere que el frontend este corriendo y genera capturas responsive de escritorio, tablet y movil en `artifacts/`.
 
 ## Despliegue
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { BookOpen, MousePointer2, Rotate3D } from 'lucide-react'
+import { BookOpen, MousePointer2, ScanLine } from 'lucide-react'
 
 const Sidebar = ({
   systems,
@@ -33,9 +33,11 @@ const Sidebar = ({
 
             return (
               <motion.button
+                type="button"
                 key={system.id}
                 className={`system-card ${isActive ? 'active' : ''}`}
                 onClick={() => onSystemChange(system.id)}
+                aria-pressed={isActive}
                 style={{ '--system-color': system.color, '--system-accent': system.accent }}
                 initial={{ opacity: 0, x: -14 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -63,9 +65,11 @@ const Sidebar = ({
         <div className="mini-part-list">
           {activeParts.slice(0, 7).map((part) => (
             <button
+              type="button"
               key={part.id}
               className={selectedPart?.id === part.id ? 'active' : ''}
               onClick={() => onPartSelect(part)}
+              aria-pressed={selectedPart?.id === part.id}
             >
               {part.name}
             </button>
@@ -75,8 +79,8 @@ const Sidebar = ({
 
       <section className="control-card" aria-label="Controles principales">
         <div>
-          <Rotate3D size={18} />
-          <span>Rotacion orbital</span>
+          <ScanLine size={18} />
+          <span>Scanner tactil</span>
         </div>
         <div>
           <MousePointer2 size={18} />
